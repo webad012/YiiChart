@@ -53,12 +53,40 @@ $this->widget('YiiChart', [
     ]
 ]);
  * 
+$this->widget('YiiChart', [
+    'type' => YiiChart::$TYPE_BAR,
+    'graph_params' => [
+        'originX' => 10,
+        'originY' => 10,
+        'barHeight' => 30,
+        'barMargin' => 10,
+    ],
+    'data' => [
+        [
+            'value' => 123,
+            'label' => 'asd',
+            'color' => '#f00',
+        ],
+        [
+            'value' => 789,
+            'label' => 'qwe',
+            'color' => '#0f0',
+        ],
+        [
+            'value' => 345,
+            'label' => 'zxc',
+            'color' => '#00f',
+        ]
+    ]
+]);
+ * 
  */
 
 class YiiChart extends CWidget {
     
     public static $TYPE_PIE = 'PIE';
     public static $TYPE_ANALYTICS = 'ANALYTICS';
+    public static $TYPE_BAR = 'BAR';
 
     /**
      *
@@ -109,6 +137,7 @@ class YiiChart extends CWidget {
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/popup.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/pieChart.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/analytics.js', CClientScript::POS_HEAD);
+        Yii::app()->clientScript->registerScriptFile($baseUrl . '/barChart.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery.yiiChart.js', CClientScript::POS_HEAD);
     }
     
@@ -143,6 +172,10 @@ class YiiChart extends CWidget {
         else if($this->type === YiiChart::$TYPE_ANALYTICS)
         {
             $this->validateAnalyticsParams();
+        }
+        else if($this->type === YiiChart::$TYPE_BAR)
+        {
+            $this->validateBarParams();
         }
         else
         {
@@ -205,6 +238,26 @@ class YiiChart extends CWidget {
         if(!isset($this->graph_params['topgutter']))
         {
             $this->graph_params['topgutter'] = 20;
+        }
+    }
+    
+    private function validateBarParams()
+    {
+        if(!isset($this->graph_params['originX']))
+        {
+            $this->graph_params['originX'] = 10;
+        }
+        if(!isset($this->graph_params['originY']))
+        {
+            $this->graph_params['originY'] = 10;
+        }
+        if(!isset($this->graph_params['barHeight']))
+        {
+            $this->graph_params['barHeight'] = 30;
+        }
+        if(!isset($this->graph_params['barMargin']))
+        {
+            $this->graph_params['barMargin'] = 10;
         }
     }
 }

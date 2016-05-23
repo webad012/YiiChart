@@ -17,6 +17,10 @@
             {
                 renderanAnalytics(localThis);
             }
+            else if(params.type === 'BAR')
+            {
+                renderanBar(localThis);
+            }
             else
             {
                 alert("yiiChart - init\nnvalid type");
@@ -66,6 +70,18 @@
         };
 
         localThis.data('raphael').analytics(grid_params);
+    }
+    
+    function renderanBar(localThis)
+    {
+        var params = {
+            'data': localThis.data('data'),
+            'originX': localThis.data('graph_params').originX,
+            'originY': localThis.data('graph_params').originY,
+            'barHeight': localThis.data('graph_params').barHeight,
+            'barMargin': localThis.data('graph_params').barMargin
+        };
+        localThis.data('raphael').barChart(params);
     }
 
     $.fn.yiiChart = function(methodOrOptions) {
