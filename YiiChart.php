@@ -103,10 +103,12 @@ class YiiChart extends CWidget {
     public $graph_params = [];
     
     public function run() 
-    {   
+    {
+        $uniq = mt_rand();
+        
         if ($this->id == null)
         {
-            $this->id = SIMAHtml::uniqid();
+            $this->id = $uniq.'_yii_chart';
         }
         
         if(empty($this->type))
@@ -127,12 +129,13 @@ class YiiChart extends CWidget {
         ];
         $json = CJSON::encode($js_params);
         $register_script = "$('#".$this->id."').yiiChart('init',$json);";
-        Yii::app()->clientScript->registerScript(SIMAHtml::uniqid(), $register_script, CClientScript::POS_READY);
+        Yii::app()->clientScript->registerScript('yiiChart'.mt_rand(), $register_script, CClientScript::POS_READY);
     }
 
     public function registerManual() {        
         $assets = dirname(__FILE__) . '/assets';
         $baseUrl = Yii::app()->assetManager->publish($assets);
+        Yii::app()->clientScript->registerScriptFile($baseUrl . '/jquery.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/raphael.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/popup.js', CClientScript::POS_HEAD);
         Yii::app()->clientScript->registerScriptFile($baseUrl . '/pieChart.js', CClientScript::POS_HEAD);
@@ -201,6 +204,10 @@ class YiiChart extends CWidget {
         if(!isset($this->graph_params['pie_border_color']))
         {
             $this->graph_params['pie_border_color'] = '#fff';
+        }
+        if(!isset($this->graph_params['constant_show_labels']))
+        {
+            $this->graph_params['constant_show_labels'] = false;
         }
     }
     

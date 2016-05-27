@@ -9,6 +9,8 @@ Raphael.fn.analytics = function (grid_params) {
     
     var txt = grid_params.txt;
     var txt1 = grid_params.txt1;
+    var txt2 = grid_params.txt2;
+    var txt3 = grid_params.txt3;
     var height = grid_params.height;
     var bottomgutter = grid_params.bottomgutter;
     var leftgutter = grid_params.leftgutter;
@@ -60,7 +62,6 @@ Raphael.fn.analytics = function (grid_params) {
         leave_timer,
         blanket = this.set();
     label.push(this.text(60, 12, "").attr(txt));
-    label.push(this.text(60, 27, "").attr(txt1).attr({fill: path_color}));
     label.hide();
     var frame = this.popup(100, 100, label, "right").attr({fill: "#000", stroke: "#666", "stroke-width": 2, "fill-opacity": .7}).hide();
     var p, bgpp;
@@ -68,7 +69,8 @@ Raphael.fn.analytics = function (grid_params) {
     for (var i = 0, ii = data_len; i < ii; i++) {
         var y = Math.round(height - bottomgutter - Y * data[i].value),
             x = Math.round(leftgutter + X * (i + .5)),
-            t = this.text(x, height - 6, data[i].label).attr(txt).toBack();
+            t1 = this.text(x, height - 6, data[i].label).attr(txt2).toBack();
+            t2 = this.text(leftgutter + X*.5 - 15, y, data[i].value).attr(txt2).toBack();
         if (!i) {
             p = ["M", x, y, "C", x, y];
             bgpp = ["M", leftgutter + X * .5, height - bottomgutter, "L", x, y, "C", x, y];
@@ -102,7 +104,6 @@ Raphael.fn.analytics = function (grid_params) {
                 ly = label[0].transform()[0][2] + ppp.dy;
                 frame.show().stop().animate(anim);
                 label[0].attr({text: data.value}).show().stop().animateWith(frame, anim, {transform: ["t", lx, ly]}, 200 * is_label_visible);
-                label[1].attr({text: data.label}).show().stop().animateWith(frame, anim, {transform: ["t", lx, ly]}, 200 * is_label_visible);
                 dot.attr("r", 6);
                 is_label_visible = true;
             }, function () {
@@ -110,7 +111,6 @@ Raphael.fn.analytics = function (grid_params) {
                 leave_timer = setTimeout(function () {
                     frame.hide();
                     label[0].hide();
-                    label[1].hide();
                     is_label_visible = false;
                 }, 1);
             });
@@ -122,7 +122,6 @@ Raphael.fn.analytics = function (grid_params) {
     bgp.attr({path: bgpp});
     frame.toFront();
     label[0].toFront();
-    label[1].toFront();
     blanket.toFront();
 };
 

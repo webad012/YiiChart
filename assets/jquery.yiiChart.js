@@ -35,7 +35,8 @@
             localThis.data('graph_params').pie_cy, 
             localThis.data('graph_params').pie_r, 
             localThis.data('data'), 
-            localThis.data('graph_params').pie_border_color
+            localThis.data('graph_params').pie_border_color,
+            localThis.data('graph_params').constant_show_labels
         );
     }
     
@@ -65,6 +66,15 @@
             txt1: {
                 font: '10px Helvetica, Arial', 
                 fill: "#fff"
+            },
+            txt2: {
+                font: '10px Helvetica, Arial', 
+                fill: "#000"
+            },
+            txt3: {
+                font: '10px Helvetica, Arial', 
+                fill: "#000",
+                transform: "r" + -90
             },
             data: localThis.data('data')
         };
