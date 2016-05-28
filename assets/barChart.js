@@ -26,10 +26,10 @@ Raphael.fn.barChart = function (params) {
         }
 
         var z = r.rect(originX, originY, width, barHeight).attr({ 'fill': color, 'stroke': color, 'stroke-width':0 });
-        var title = r.text(originX+width+60, originY+(barHeight/2), text + ': ' + value ).attr({
+        var title = r.text(originX+width+10, originY+(barHeight/2), text + ': ' + value ).attr({
             font: '20px Arial',
             fill: color
-        }).toFront();
+        }).attr({'text-anchor': 'start'}).toFront();
         title.node.setAttribute("class","donthighlight");
 
         // update our originY to accomodate shifting the next

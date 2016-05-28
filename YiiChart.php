@@ -93,6 +93,8 @@ class YiiChart extends CWidget {
      * @var string  id wrapper-a za tabove
      */
     public $id = null;
+    public $svg_id = null;
+    public $download_id = null;
     
     public $svg_width = 500;
     public $svg_height = 500;
@@ -110,6 +112,14 @@ class YiiChart extends CWidget {
         {
             $this->id = $uniq.'_yii_chart';
         }
+        if ($this->svg_id == null)
+        {
+            $this->svg_id = $uniq.'_yii_chart_svg';
+        }
+        if ($this->download_id == null)
+        {
+            $this->download_id = $uniq.'_yii_chart_download';
+        }
         
         if(empty($this->type))
         {
@@ -121,6 +131,8 @@ class YiiChart extends CWidget {
         echo $this->render('index',[]);
         
         $js_params = [
+            'svg_id' => $this->svg_id,
+            'download_id' => $this->download_id,
             'svg_width' => $this->svg_width,
             'svg_height' => $this->svg_height,
             'type' => $this->type,
