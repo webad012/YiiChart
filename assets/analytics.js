@@ -1,5 +1,17 @@
 /* global Raphael */
 
+Array.prototype.getUnique = function(){
+   var u = {}, a = [];
+   for(var i = 0, l = this.length; i < l; ++i){
+      if(u.hasOwnProperty(this[i])) {
+         continue;
+      }
+      a.push(this[i]);
+      u[this[i]] = 1;
+   }
+   return a;
+}
+
 Raphael.fn.analytics = function (grid_params) {
     var wv = grid_params.grid_columns_num, hv = grid_params.grid_rows_num, 
     color = grid_params.grid_color;
@@ -66,11 +78,14 @@ Raphael.fn.analytics = function (grid_params) {
     var frame = this.popup(100, 100, label, "right").attr({fill: "#000", stroke: "#666", "stroke-width": 2, "fill-opacity": .7}).hide();
     var p, bgpp;
     var r = this;
+    
+    var y_values = [];
+    
     for (var i = 0, ii = data_len; i < ii; i++) {
         var y = Math.round(height - bottomgutter - Y * data[i].value),
-            x = Math.round(leftgutter + X * (i + .5)),
-            t1 = this.text(x, height - 6, data[i].label).attr(txt2).toBack();
-            t2 = this.text(leftgutter + X*.5 - 15, y, data[i].value).attr(txt2).toBack();
+            x = Math.round(leftgutter + X * (i + .5));
+        var t1 = this.text(x, height - 6, data[i].label).attr(txt2).toBack();
+        y_values.push(data[i].value);
         if (!i) {
             p = ["M", x, y, "C", x, y];
             bgpp = ["M", leftgutter + X * .5, height - bottomgutter, "L", x, y, "C", x, y];
@@ -116,6 +131,13 @@ Raphael.fn.analytics = function (grid_params) {
             });
         })(x, y, data[i], dot);
     }
+    
+    var y_values_unique = y_values.getUnique();
+    $.each(y_values_unique, function(index, value){
+        var y = Math.round(height - bottomgutter - Y * value);
+        r.text(leftgutter + X*.5 - 15, y, value).attr(txt2).toBack();
+    });
+    
     p = p.concat([x, y, x, y]);
     bgpp = bgpp.concat([x, y, x, y, "L", x, height - bottomgutter, "z"]);
     path.attr({path: p});

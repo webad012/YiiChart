@@ -33,8 +33,8 @@ Raphael.fn.pieChart = function (cx, cy, r, data, stroke, constant_show_labels) {
                 ms = 500,
                 delta = 30,
                 p = sector(cx, cy, r, angle, angle + angleplus, {fill: "90-" + bcolor + "-" + color, stroke: stroke, "stroke-width": 3}),
-                txt = paper.text(cx + (r + delta + 20) * Math.cos(-popangle * rad), cy + (r + delta + 20) * Math.sin(-popangle * rad), data_j.label+" "+(percent_show*100)+"%").attr({fill: bcolor, stroke: "none", opacity: 0, "font-size": 20});
-            
+                txt = paper.text(cx + (r + delta + 20) * Math.cos(-popangle * rad), cy + (r + delta + 20) * Math.sin(-popangle * rad), data_j.label+" "+Math.round(percent_show*100)+"%").attr({fill: bcolor, stroke: "none", opacity: 0, "font-size": 20});
+                
             if(angleplus > 0)
             {
                 if(constant_show_labels === true)
